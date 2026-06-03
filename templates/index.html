@@ -2,169 +2,378 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>StyleStore - Tienda Moderna</title>
+<title>StyleStore - Tienda Moderna</title>
 
-  <style>
+<style>
 
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #f5f5f5;
-    }
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:#f5f5f5;
+}
 
-    header {
-      background: #111;
-      color: white;
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+header{
+    background:#111;
+    color:white;
+    padding:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
 
-    header h1 {
-      margin: 0;
-    }
+header h1{
+    margin:0;
+}
 
-    nav a {
-      color: white;
-      margin-left: 20px;
-      text-decoration: none;
-    }
+nav a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+}
 
-    .hero {
-      background:
-        linear-gradient(rgba(0,0,0,0.5),
-        rgba(0,0,0,0.5)),
-        url('https://images.unsplash.com/photo-1521335629791-ce4aec67dd47')
-        center/cover;
+.hero{
+    background:
+    linear-gradient(rgba(0,0,0,0.4),
+    rgba(0,0,0,0.4)),
+    url('https://images.unsplash.com/photo-1441986300917-64674bd600d8')
+    center/cover;
 
-      color: white;
-      text-align: center;
-      padding: 100px 20px;
-    }
+    color:white;
+    text-align:center;
+    padding:100px 20px;
+}
 
-    .hero h2 {
-      font-size: 40px;
-    }
+.hero h2{
+    font-size:40px;
+}
 
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 40px;
-    }
+.products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+    padding:40px;
+}
 
-    .card {
-      background: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
-    }
+.card{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
 
-    .card:hover {
-      transform: scale(1.03);
-    }
+.card:hover{
+    transform:scale(1.03);
+}
 
-    .card img {
-      width: 100%;
-      height: 250px;
-      object-fit: cover;
-    }
+.card img{
+    width:100%;
+    height:250px;
+    object-fit:cover;
+}
 
-    .card-content {
-      padding: 15px;
-      text-align: center;
-    }
+.card-content{
+    padding:15px;
+    text-align:center;
+}
 
-    .price {
-      color: #27ae60;
-      font-weight: bold;
-    }
+.price{
+    color:#27ae60;
+    font-weight:bold;
+}
 
-    button {
-      background: black;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      margin-top: 10px;
-      cursor: pointer;
-      border-radius: 6px;
-    }
+button{
+    background:black;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    margin:5px;
+    cursor:pointer;
+    border-radius:6px;
+}
 
-    button:hover {
-      background: #333;
-    }
+button:hover{
+    background:#333;
+}
 
-    footer {
-      background: #111;
-      color: white;
-      text-align: center;
-      padding: 15px;
-    }
+#carrito,
+#crud{
+    background:white;
+    margin:20px;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
 
-  </style>
+input{
+    padding:10px;
+    margin:5px;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
 
+#lista-carrito,
+#listaProductos{
+    list-style:none;
+    padding:0;
+}
+
+#lista-carrito li,
+#listaProductos li{
+    padding:8px;
+    border-bottom:1px solid #ddd;
+}
+
+footer{
+    background:#111;
+    color:white;
+    text-align:center;
+    padding:15px;
+    margin-top:20px;
+}
+
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>StyleStore</h1>
+    <h1>StyleStore</h1>
 
-  <nav>
-    <a href="#">Inicio</a>
-    <a href="#">Tienda</a>
-    <a href="#">Contacto</a>
-  </nav>
+    <nav>
+        <a href="#">Inicio</a>
+        <a href="#">Tienda</a>
+        <a href="#">Contacto</a>
+    </nav>
 </header>
 
 <section class="hero">
-  <h2>Descubre tu estilo</h2>
-  <p>Moda moderna para todos</p>
+    <h2>Descubre tu estilo</h2>
+    <p>Moda moderna para todos</p>
 </section>
+
+<div id="carrito">
+    <h2>🛒 Carrito de Compras</h2>
+
+    <ul id="lista-carrito"></ul>
+
+    <h3>Total: S/ <span id="total">0</span></h3>
+</div>
 
 <section class="products">
 
-  <div class="card">
-    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab">
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab">
 
-    <div class="card-content">
-      <h3>Polera Urbana</h3>
-      <p class="price">S/ 50</p>
-      <button>Comprar</button>
+        <div class="card-content">
+            <h3>Polera Urbana</h3>
+            <p class="price">S/ 50</p>
+
+            <button onclick="agregarCarrito('Polera Urbana',50)">
+                Comprar
+            </button>
+        </div>
     </div>
-  </div>
 
-  <div class="card">
-    <img src="https://images.unsplash.com/photo-1542272604-787c3835535d">
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1542272604-787c3835535d">
 
-    <div class="card-content">
-      <h3>Jeans Clásicos</h3>
-      <p class="price">S/ 90</p>
-      <button>Comprar</button>
+        <div class="card-content">
+            <h3>Jeans Clásicos</h3>
+            <p class="price">S/ 90</p>
+
+            <button onclick="agregarCarrito('Jeans Clásicos',90)">
+                Comprar
+            </button>
+        </div>
     </div>
-  </div>
 
-  <div class="card">
-    <img src="https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504">
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504">
 
-    <div class="card-content">
-      <h3>Chaqueta Moderna</h3>
-      <p class="price">S/ 120</p>
-      <button>Comprar</button>
+        <div class="card-content">
+            <h3>Chaqueta Moderna</h3>
+            <p class="price">S/ 120</p>
+
+            <button onclick="agregarCarrito('Chaqueta Moderna',120)">
+                Comprar
+            </button>
+        </div>
     </div>
-  </div>
 
 </section>
 
+<div id="crud">
+
+    <h2>Gestión de Productos</h2>
+
+    <input type="text" id="nombre" placeholder="Nombre del producto">
+
+    <input type="number" id="precio" placeholder="Precio">
+
+    <br>
+
+    <button onclick="guardar()">Guardar</button>
+
+    <button onclick="buscar()">Buscar</button>
+
+    <button onclick="modificar()">Modificar</button>
+
+    <button onclick="eliminarProducto()">Eliminar</button>
+
+    <p id="mensaje"></p>
+
+    <ul id="listaProductos"></ul>
+
+</div>
+
 <footer>
-  <p>© 2026 StyleStore - Todos los derechos reservados</p>
+    <p>© 2026 StyleStore - Todos los derechos reservados</p>
 </footer>
 
-</body>
+<script>
 
+let total = 0;
+let productos = [];
+
+function agregarCarrito(nombre, precio){
+
+    let lista = document.getElementById("lista-carrito");
+
+    let item = document.createElement("li");
+
+    item.textContent = nombre + " - S/ " + precio;
+
+    lista.appendChild(item);
+
+    total += precio;
+
+    document.getElementById("total").textContent = total;
+}
+
+function mostrarProductos(){
+
+    let lista = document.getElementById("listaProductos");
+
+    lista.innerHTML = "";
+
+    productos.forEach(producto => {
+
+        let item = document.createElement("li");
+
+        item.textContent =
+        producto.nombre + " - S/ " + producto.precio;
+
+        lista.appendChild(item);
+    });
+}
+
+function guardar(){
+
+    let nombre =
+    document.getElementById("nombre").value;
+
+    let precio =
+    document.getElementById("precio").value;
+
+    if(nombre === "" || precio === ""){
+        document.getElementById("mensaje").innerText =
+        "Complete todos los campos";
+        return;
+    }
+
+    productos.push({
+        nombre:nombre,
+        precio:precio
+    });
+
+    document.getElementById("mensaje").innerText =
+    "Producto guardado correctamente";
+
+    mostrarProductos();
+
+    document.getElementById("nombre").value = "";
+    document.getElementById("precio").value = "";
+}
+
+function buscar(){
+
+    let nombre =
+    document.getElementById("nombre").value;
+
+    let producto =
+    productos.find(p => p.nombre === nombre);
+
+    if(producto){
+
+        document.getElementById("precio").value =
+        producto.precio;
+
+        document.getElementById("mensaje").innerText =
+        "Producto encontrado";
+
+    }else{
+
+        document.getElementById("mensaje").innerText =
+        "Producto no encontrado";
+    }
+}
+
+function modificar(){
+
+    let nombre =
+    document.getElementById("nombre").value;
+
+    let precio =
+    document.getElementById("precio").value;
+
+    let producto =
+    productos.find(p => p.nombre === nombre);
+
+    if(producto){
+
+        producto.precio = precio;
+
+        document.getElementById("mensaje").innerText =
+        "Producto modificado correctamente";
+
+        mostrarProductos();
+
+    }else{
+
+        document.getElementById("mensaje").innerText =
+        "Producto no encontrado";
+    }
+}
+
+function eliminarProducto(){
+
+    let nombre =
+    document.getElementById("nombre").value;
+
+    let indice =
+    productos.findIndex(p => p.nombre === nombre);
+
+    if(indice !== -1){
+
+        productos.splice(indice,1);
+
+        document.getElementById("mensaje").innerText =
+        "Producto eliminado correctamente";
+
+        mostrarProductos();
+
+    }else{
+
+        document.getElementById("mensaje").innerText =
+        "Producto no encontrado";
+    }
+}
+
+</script>
+
+</body>
 </html>
