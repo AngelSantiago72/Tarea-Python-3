@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +8,14 @@
 
 <style>
 
-body{
+*{
     margin:0;
+    padding:0;
+    box-sizing:border-box;
     font-family:'Segoe UI',sans-serif;
+}
+
+body{
     background:#f5f5f5;
 }
 
@@ -25,29 +29,47 @@ header{
 }
 
 header h1{
-    margin:0;
+    font-size:28px;
+}
+
+nav{
+    display:flex;
+    align-items:center;
+    gap:20px;
 }
 
 nav a{
     color:white;
     text-decoration:none;
-    margin-left:20px;
+}
+
+#btnCarrito{
+    background:#27ae60;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:8px;
+    cursor:pointer;
 }
 
 .hero{
     background:
-    linear-gradient(rgba(0,0,0,0.4),
-    rgba(0,0,0,0.4)),
-    url('https://images.unsplash.com/photo-1441986300917-64674bd600d8')
-    center/cover;
-
+    linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),
+    url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1400&q=80');
+    background-size:cover;
+    background-position:center;
     color:white;
     text-align:center;
-    padding:100px 20px;
+    padding:120px 20px;
 }
 
 .hero h2{
-    font-size:40px;
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+.hero p{
+    font-size:20px;
 }
 
 .products{
@@ -62,11 +84,6 @@ nav a{
     border-radius:12px;
     overflow:hidden;
     box-shadow:0 4px 10px rgba(0,0,0,0.1);
-    transition:0.3s;
-}
-
-.card:hover{
-    transform:scale(1.03);
 }
 
 .card img{
@@ -82,6 +99,7 @@ nav a{
 
 .price{
     color:#27ae60;
+    font-size:20px;
     font-weight:bold;
 }
 
@@ -90,64 +108,102 @@ button{
     color:white;
     border:none;
     padding:10px 15px;
-    margin:5px;
-    cursor:pointer;
     border-radius:6px;
+    cursor:pointer;
+    margin-top:10px;
 }
 
 button:hover{
     background:#333;
 }
 
-#carrito,
-#crud{
+/* CARRITO */
+
+.carrito{
+    position:fixed;
+    top:0;
+    right:-400px;
+    width:350px;
+    height:100%;
     background:white;
-    margin:20px;
+    box-shadow:-4px 0 10px rgba(0,0,0,0.2);
     padding:20px;
-    border-radius:12px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    transition:0.4s;
+    overflow-y:auto;
+    z-index:1000;
 }
 
-input{
-    padding:10px;
-    margin:5px;
-    border:1px solid #ccc;
-    border-radius:6px;
+.carrito.activo{
+    right:0;
 }
 
-#lista-carrito,
-#listaProductos{
+.carrito h2{
+    margin-bottom:20px;
+}
+
+#lista-carrito{
     list-style:none;
-    padding:0;
 }
 
-#lista-carrito li,
-#listaProductos li{
-    padding:8px;
+#lista-carrito li{
+    padding:10px;
     border-bottom:1px solid #ddd;
+}
+
+.total{
+    margin-top:20px;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.botones-carrito{
+    margin-top:20px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.comprar{
+    background:#27ae60;
+}
+
+.cancelar{
+    background:#e74c3c;
+}
+
+.modificar{
+    background:#f39c12;
+}
+
+.eliminar{
+    background:#c0392b;
 }
 
 footer{
     background:#111;
     color:white;
     text-align:center;
-    padding:15px;
-    margin-top:20px;
+    padding:20px;
 }
 
 </style>
 </head>
-
 <body>
 
 <header>
+
     <h1>StyleStore</h1>
 
     <nav>
         <a href="#">Inicio</a>
         <a href="#">Tienda</a>
         <a href="#">Contacto</a>
+
+        <button id="btnCarrito" onclick="mostrarCarrito()">
+            🛒 Carrito
+        </button>
     </nav>
+
 </header>
 
 <section class="hero">
@@ -155,18 +211,10 @@ footer{
     <p>Moda moderna para todos</p>
 </section>
 
-<div id="carrito">
-    <h2>🛒 Carrito de Compras</h2>
-
-    <ul id="lista-carrito"></ul>
-
-    <h3>Total: S/ <span id="total">0</span></h3>
-</div>
-
 <section class="products">
 
     <div class="card">
-        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab">
+        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80">
 
         <div class="card-content">
             <h3>Polera Urbana</h3>
@@ -179,7 +227,7 @@ footer{
     </div>
 
     <div class="card">
-        <img src="https://images.unsplash.com/photo-1542272604-787c3835535d">
+        <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=800&q=80">
 
         <div class="card-content">
             <h3>Jeans Clásicos</h3>
@@ -192,7 +240,7 @@ footer{
     </div>
 
     <div class="card">
-        <img src="https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504">
+        <img src="https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?auto=format&fit=crop&w=800&q=80">
 
         <div class="card-content">
             <h3>Chaqueta Moderna</h3>
@@ -206,27 +254,37 @@ footer{
 
 </section>
 
-<div id="crud">
+<!-- CARRITO -->
 
-    <h2>Gestión de Productos</h2>
+<div class="carrito" id="carrito">
 
-    <input type="text" id="nombre" placeholder="Nombre del producto">
+    <h2>🛒 Carrito de Compras</h2>
 
-    <input type="number" id="precio" placeholder="Precio">
+    <ul id="lista-carrito"></ul>
 
-    <br>
+    <div class="total">
+        Total: S/ <span id="total">0</span>
+    </div>
 
-    <button onclick="guardar()">Guardar</button>
+    <div class="botones-carrito">
 
-    <button onclick="buscar()">Buscar</button>
+        <button class="modificar" onclick="modificarProducto()">
+            Modificar Último Producto
+        </button>
 
-    <button onclick="modificar()">Modificar</button>
+        <button class="eliminar" onclick="eliminarProducto()">
+            Eliminar Último Producto
+        </button>
 
-    <button onclick="eliminarProducto()">Eliminar</button>
+        <button class="comprar" onclick="comprarProductos()">
+            Finalizar Compra
+        </button>
 
-    <p id="mensaje"></p>
+        <button class="cancelar" onclick="ocultarCarrito()">
+            Cancelar
+        </button>
 
-    <ul id="listaProductos"></ul>
+    </div>
 
 </div>
 
@@ -237,140 +295,103 @@ footer{
 <script>
 
 let total = 0;
-let productos = [];
+let carrito = [];
 
-function agregarCarrito(nombre, precio){
-
-    let lista = document.getElementById("lista-carrito");
-
-    let item = document.createElement("li");
-
-    item.textContent = nombre + " - S/ " + precio;
-
-    lista.appendChild(item);
-
-    total += precio;
-
-    document.getElementById("total").textContent = total;
+function mostrarCarrito(){
+    document.getElementById("carrito").classList.add("activo");
 }
 
-function mostrarProductos(){
-
-    let lista = document.getElementById("listaProductos");
-
-    lista.innerHTML = "";
-
-    productos.forEach(producto => {
-
-        let item = document.createElement("li");
-
-        item.textContent =
-        producto.nombre + " - S/ " + producto.precio;
-
-        lista.appendChild(item);
-    });
+function ocultarCarrito(){
+    document.getElementById("carrito").classList.remove("activo");
 }
 
-function guardar(){
+function agregarCarrito(nombre,precio){
 
-    let nombre =
-    document.getElementById("nombre").value;
-
-    let precio =
-    document.getElementById("precio").value;
-
-    if(nombre === "" || precio === ""){
-        document.getElementById("mensaje").innerText =
-        "Complete todos los campos";
-        return;
-    }
-
-    productos.push({
+    carrito.push({
         nombre:nombre,
         precio:precio
     });
 
-    document.getElementById("mensaje").innerText =
-    "Producto guardado correctamente";
-
-    mostrarProductos();
-
-    document.getElementById("nombre").value = "";
-    document.getElementById("precio").value = "";
+    actualizarCarrito();
 }
 
-function buscar(){
+function actualizarCarrito(){
 
-    let nombre =
-    document.getElementById("nombre").value;
+    let lista = document.getElementById("lista-carrito");
 
-    let producto =
-    productos.find(p => p.nombre === nombre);
+    lista.innerHTML = "";
 
-    if(producto){
+    total = 0;
 
-        document.getElementById("precio").value =
-        producto.precio;
+    carrito.forEach(producto => {
 
-        document.getElementById("mensaje").innerText =
-        "Producto encontrado";
+        let li = document.createElement("li");
 
-    }else{
+        li.textContent =
+        producto.nombre + " - S/ " + producto.precio;
 
-        document.getElementById("mensaje").innerText =
-        "Producto no encontrado";
-    }
-}
+        lista.appendChild(li);
 
-function modificar(){
+        total += producto.precio;
+    });
 
-    let nombre =
-    document.getElementById("nombre").value;
-
-    let precio =
-    document.getElementById("precio").value;
-
-    let producto =
-    productos.find(p => p.nombre === nombre);
-
-    if(producto){
-
-        producto.precio = precio;
-
-        document.getElementById("mensaje").innerText =
-        "Producto modificado correctamente";
-
-        mostrarProductos();
-
-    }else{
-
-        document.getElementById("mensaje").innerText =
-        "Producto no encontrado";
-    }
+    document.getElementById("total").textContent = total;
 }
 
 function eliminarProducto(){
 
-    let nombre =
-    document.getElementById("nombre").value;
+    if(carrito.length > 0){
 
-    let indice =
-    productos.findIndex(p => p.nombre === nombre);
+        carrito.pop();
 
-    if(indice !== -1){
-
-        productos.splice(indice,1);
-
-        document.getElementById("mensaje").innerText =
-        "Producto eliminado correctamente";
-
-        mostrarProductos();
+        actualizarCarrito();
 
     }else{
 
-        document.getElementById("mensaje").innerText =
-        "Producto no encontrado";
+        alert("El carrito está vacío");
     }
+}
+
+function modificarProducto(){
+
+    if(carrito.length > 0){
+
+        let nuevoNombre =
+        prompt("Nuevo nombre del último producto:");
+
+        if(nuevoNombre){
+
+            carrito[carrito.length-1].nombre =
+            nuevoNombre;
+
+            actualizarCarrito();
+        }
+
+    }else{
+
+        alert("El carrito está vacío");
+    }
+}
+
+function comprarProductos(){
+
+    if(carrito.length === 0){
+
+        alert("No hay productos en el carrito");
+
+        return;
+    }
+
+    alert(
+        "Compra realizada correctamente.\n\nTotal: S/ " +
+        total
+    );
+
+    carrito = [];
+
+    actualizarCarrito();
+
+    ocultarCarrito();
 }
 
 </script>
