@@ -239,6 +239,73 @@ nav a{
     padding:20px;
 }
 
+
+.item-carrito{
+    display:flex;
+    gap:15px;
+    margin-bottom:20px;
+    border-bottom:1px solid #ddd;
+    padding-bottom:15px;
+}
+
+.item-carrito img{
+    width:90px;
+    height:110px;
+    object-fit:cover;
+    border-radius:4px;
+}
+
+.info-producto{
+    flex:1;
+}
+
+.info-producto h4{
+    font-size:16px;
+    margin-bottom:5px;
+}
+
+.info-producto p{
+    color:#666;
+    margin-bottom:5px;
+}
+
+.precio-item{
+    font-size:22px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.cantidad{
+    width:60px;
+    padding:5px;
+}
+
+.btn-eliminar{
+    background:none;
+    border:none;
+    color:red;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.fila{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:15px;
+    font-size:18px;
+}
+
+.total{
+    font-weight:bold;
+    font-size:24px;
+}
+
+.cerrar{
+    font-size:28px;
+    cursor:pointer;
+}
+
+
 .resumen{
     border-top:1px solid #ddd;
     padding:20px;
@@ -448,6 +515,7 @@ function actualizarCarrito(){
     document.getElementById("lista-carrito");
 
     lista.innerHTML = "";
+
     total = 0;
 
     carrito.forEach((producto,index)=>{
@@ -456,23 +524,42 @@ function actualizarCarrito(){
 
         lista.innerHTML += `
         <div class="item-carrito">
-            <img src="${producto.imagen}" width="90">
+
+            <img src="${producto.imagen}">
 
             <div class="info-producto">
+
                 <h4>${producto.nombre}</h4>
+
+                <p>Talla: M</p>
+
                 <div class="precio-item">
                     S/ ${producto.precio}
                 </div>
+
+                <input
+                type="number"
+                value="1"
+                min="1"
+                class="cantidad">
+
             </div>
 
-            <button onclick="eliminarProducto(${index})">
-            🗑
+            <button
+            class="btn-eliminar"
+            onclick="eliminarProducto(${index})">
+                🗑
             </button>
-        </div>`;
+
+        </div>
+        `;
     });
 
-    document.getElementById("subtotal").textContent = total;
-    document.getElementById("total").textContent = total;
+    document.getElementById("subtotal")
+    .textContent = total;
+
+    document.getElementById("total")
+    .textContent = total;
 }
 
 function comprarProductos(){
