@@ -239,73 +239,6 @@ nav a{
     padding:20px;
 }
 
-
-.item-carrito{
-    display:flex;
-    gap:15px;
-    margin-bottom:20px;
-    border-bottom:1px solid #ddd;
-    padding-bottom:15px;
-}
-
-.item-carrito img{
-    width:90px;
-    height:110px;
-    object-fit:cover;
-    border-radius:4px;
-}
-
-.info-producto{
-    flex:1;
-}
-
-.info-producto h4{
-    font-size:16px;
-    margin-bottom:5px;
-}
-
-.info-producto p{
-    color:#666;
-    margin-bottom:5px;
-}
-
-.precio-item{
-    font-size:22px;
-    font-weight:bold;
-    margin-bottom:10px;
-}
-
-.cantidad{
-    width:60px;
-    padding:5px;
-}
-
-.btn-eliminar{
-    background:none;
-    border:none;
-    color:red;
-    font-size:20px;
-    cursor:pointer;
-}
-
-.fila{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:15px;
-    font-size:18px;
-}
-
-.total{
-    font-weight:bold;
-    font-size:24px;
-}
-
-.cerrar{
-    font-size:28px;
-    cursor:pointer;
-}
-
-
 .resumen{
     border-top:1px solid #ddd;
     padding:20px;
@@ -339,6 +272,8 @@ footer{
 
 <nav>
 
+<a href="#">Inicio</a>
+
 <div class="login-menu">
 
 <button class="btn-login" onclick="toggleLogin()">
@@ -349,11 +284,11 @@ Iniciar sesión
 
 <h3>🔒 ACCESO</h3>
 
-<input type="email" placeholder="Usuario o Email">
+<input type="text" id="usuario" placeholder="Usuario">
 
-<input type="password" placeholder="Contraseña">
+<input type="password" id="clave" placeholder="Contraseña">
 
-<button class="btn-ingresar">
+<button class="btn-ingresar" onclick="login()">
 INGRESAR
 </button>
 
@@ -450,6 +385,17 @@ FINALIZA TU COMPRA
 </div>
 </div>
 
+
+<div id="panelAdmin" style="display:none;padding:40px;">
+<h2>Panel Administrativo</h2>
+<button onclick="mostrarSeccion('productos')">Productos</button>
+<button onclick="mostrarSeccion('servicios')">Servicios</button>
+<button onclick="mostrarSeccion('clientes')">Clientes</button>
+<button onclick="mostrarSeccion('usuarios')">Usuarios</button>
+<hr>
+<div id="contenidoAdmin"></div>
+</div>
+
 <footer>
 © 2026 StyleStore - Todos los derechos reservados
 </footer>
@@ -476,6 +422,29 @@ document.addEventListener("click", function(e){
 
 });
 
+
+function login(){
+ let usuario=document.getElementById("usuario").value;
+ let clave=document.getElementById("clave").value;
+
+ if(usuario==="admin" && clave==="1234"){
+   document.querySelector(".hero").style.display="none";
+   document.querySelector(".products").style.display="none";
+   document.getElementById("panelAdmin").style.display="block";
+ }else{
+   alert("Usuario o contraseña incorrectos");
+ }
+}
+
+function mostrarSeccion(tipo){
+ document.getElementById("contenidoAdmin").innerHTML=`
+ <h3>${tipo.toUpperCase()}</h3>
+ <button>Agregar</button>
+ <button>Modificar</button>
+ <button>Eliminar</button>`;
+}
+
+
 function mostrarCarrito(){
     document.getElementById("carrito")
     .classList.add("activo");
@@ -495,10 +464,9 @@ function ocultarCarrito(){
 function agregarCarrito(nombre,precio,imagen){
 
     carrito.push({
-        nombre: nombre,
-        precio: precio,
-        imagen: imagen,
-        cantidad: 1
+        nombre,
+        precio,
+        imagen
     });
 
     actualizarCarrito();
@@ -510,71 +478,37 @@ function eliminarProducto(index){
     actualizarCarrito();
 }
 
-function cambiarCantidad(index, cantidad){
-
-    cantidad = parseInt(cantidad);
-
-    if(cantidad < 1){
-        cantidad = 1;
-    }
-
-    carrito[index].cantidad = cantidad;
-
-    actualizarCarrito();
-}
-
 function actualizarCarrito(){
 
     let lista =
     document.getElementById("lista-carrito");
 
     lista.innerHTML = "";
-
     total = 0;
 
     carrito.forEach((producto,index)=>{
 
-        total += producto.precio * producto.cantidad;
+        total += producto.precio;
 
         lista.innerHTML += `
         <div class="item-carrito">
-
-            <img src="${producto.imagen}">
+            <img src="${producto.imagen}" width="90">
 
             <div class="info-producto">
-
                 <h4>${producto.nombre}</h4>
-
-                <p>Talla: M</p>
-
                 <div class="precio-item">
-                    S/ ${producto.precio * producto.cantidad}
+                    S/ ${producto.precio}
                 </div>
-
-                <input
-                type="number"
-                value="${producto.cantidad}"
-                min="1"
-                class="cantidad"
-                onchange="cambiarCantidad(${index}, this.value)">
-
             </div>
 
-            <button
-            class="btn-eliminar"
-            onclick="eliminarProducto(${index})">
-                🗑
+            <button onclick="eliminarProducto(${index})">
+            🗑
             </button>
-
-        </div>
-        `;
+        </div>`;
     });
 
-    document.getElementById("subtotal")
-    .textContent = total;
-
-    document.getElementById("total")
-    .textContent = total;
+    document.getElementById("subtotal").textContent = total;
+    document.getElementById("total").textContent = total;
 }
 
 function comprarProductos(){
