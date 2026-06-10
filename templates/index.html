@@ -3,24 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>StyleStore - Tienda Moderna</title>
-
+<title>StyleStore - Tienda Moderna con CRUD</title>
 <style>
-
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
     font-family:'Segoe UI',sans-serif;
 }
-
 body{
     background:#f5f5f5;
 }
-
 /* HEADER */
-
 header{
     background:#111;
     color:white;
@@ -29,23 +23,18 @@ header{
     justify-content:space-between;
     align-items:center;
 }
-
 header h1{
     font-size:28px;
 }
-
 nav{
     display:flex;
     gap:20px;
     align-items:center;
 }
-
 /* LOGIN */
-
 .login-menu{
     position:relative;
 }
-
 .btn-login{
     background:transparent;
     color:white;
@@ -56,11 +45,9 @@ nav{
     font-weight:bold;
     transition:.3s;
 }
-
 .btn-login:hover{
     background:#d7261e;
 }
-
 .login-dropdown{
     position:absolute;
     top:55px;
@@ -70,26 +57,21 @@ nav{
     border-radius:10px;
     padding:20px;
     box-shadow:0 10px 25px rgba(0,0,0,.4);
-
     opacity:0;
     visibility:hidden;
     transform:translateY(-10px);
-
     transition:.3s;
     z-index:2000;
 }
-
 .login-dropdown.activo{
     opacity:1;
     visibility:visible;
     transform:translateY(0);
 }
-
 .login-dropdown h3{
     color:#d7261e;
     margin-bottom:20px;
 }
-
 .login-dropdown input{
     width:100%;
     padding:12px;
@@ -99,7 +81,6 @@ nav{
     background:#222;
     color:white;
 }
-
 .btn-ingresar{
     width:100%;
     padding:12px;
@@ -110,12 +91,10 @@ nav{
     border-radius:5px;
     cursor:pointer;
 }
-
 nav a{
     color:white;
     text-decoration:none;
 }
-
 #btnCarrito{
     background:#d7261e;
     color:white;
@@ -125,9 +104,7 @@ nav a{
     cursor:pointer;
     font-weight:bold;
 }
-
 /* HERO */
-
 .hero{
     background:
     linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)),
@@ -138,47 +115,39 @@ nav a{
     text-align:center;
     padding:120px 20px;
 }
-
 .hero h2{
     font-size:55px;
 }
-
 .hero p{
     margin-top:10px;
     font-size:20px;
 }
-
 .products{
     padding:40px;
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
     gap:25px;
 }
-
 .card{
     background:white;
     border-radius:12px;
     overflow:hidden;
     box-shadow:0 4px 10px rgba(0,0,0,.1);
 }
-
 .card img{
     width:100%;
     height:320px;
     object-fit:cover;
 }
-
 .card-content{
     padding:15px;
     text-align:center;
 }
-
 .price{
     color:#d7261e;
     font-size:24px;
     font-weight:bold;
 }
-
 .card button{
     margin-top:15px;
     width:100%;
@@ -188,7 +157,6 @@ nav a{
     border:none;
     cursor:pointer;
 }
-
 .overlay{
     position:fixed;
     top:0;
@@ -201,12 +169,10 @@ nav a{
     transition:.3s;
     z-index:999;
 }
-
 .overlay.activo{
     opacity:1;
     visibility:visible;
 }
-
 .carrito{
     position:fixed;
     top:0;
@@ -219,11 +185,9 @@ nav a{
     display:flex;
     flex-direction:column;
 }
-
 .carrito.activo{
     right:0;
 }
-
 .carrito-header{
     background:black;
     color:white;
@@ -232,18 +196,23 @@ nav a{
     justify-content:space-between;
     align-items:center;
 }
-
 #lista-carrito{
     flex:1;
     overflow-y:auto;
     padding:20px;
 }
-
+.item-carrito {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
 .resumen{
     border-top:1px solid #ddd;
     padding:20px;
 }
-
 .btn-finalizar{
     width:100%;
     padding:18px;
@@ -255,145 +224,213 @@ nav a{
     cursor:pointer;
 }
 
+/* ==========================================================
+   ESTILOS PARA EL PANEL ADMIN / CRUD 
+   ========================================================== */
+#panelAdmin {
+    max-width: 1200px;
+    margin: 30px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.admin-nav {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    margin-bottom: 25px;
+}
+.btn-tab {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: 0.2s;
+}
+.btn-tab.active {
+    background: #111;
+    color: white;
+    border-color: #111;
+}
+.crud-header {
+    font-size: 32px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: #222;
+}
+/* Estilo Tabla exacto a la captura */
+.crud-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background: #fff;
+}
+.crud-table th {
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 2px solid #eee;
+    color: #444;
+    font-weight: 600;
+}
+.crud-table td {
+    padding: 16px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+    font-size: 15px;
+}
+.crud-table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternancia de gris de la imagen */
+}
+/* Botones de acción */
+.btn-action-edit {
+    background: #ffb703;
+    color: #222;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 5px;
+}
+.btn-action-del {
+    background: #e63946;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.btn-add-item {
+    background: #2cb67d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.btn-download-csv {
+    background: #0077b6;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 10px;
+}
 footer{
     background:#111;
     color:white;
     text-align:center;
     padding:20px;
+    margin-top: 50px;
 }
-
 </style>
 </head>
 <body>
-
 <header>
-
 <h1>StyleStore</h1>
-
 <nav>
-
-<a href="#">Inicio</a>
+<a href="#" onclick="volverTienda()">Inicio</a>
 
 <div class="login-menu">
-
-<button class="btn-login" onclick="toggleLogin()">
-Iniciar sesión
-</button>
-
-<div class="login-dropdown" id="loginDropdown">
-
-<h3>🔒 ACCESO</h3>
-
-<input type="text" id="usuario" placeholder="Usuario">
-
-<input type="password" id="clave" placeholder="Contraseña">
-
-<button class="btn-ingresar" onclick="login()">
-INGRESAR
-</button>
-
+    <button class="btn-login" onclick="toggleLogin()">
+    Iniciar sesión
+    </button>
+    <div class="login-dropdown" id="loginDropdown">
+    <h3>🔒 ACCESO</h3>
+    <input type="text" id="usuario" placeholder="Usuario">
+    <input type="password" id="clave" placeholder="Contraseña">
+    <button class="btn-ingresar" onclick="login()">
+    INGRESAR
+    </button>
+    </div>
 </div>
 
-</div>
-
-<a href="#">Tienda</a>
-<a href="#">Contacto</a>
+<a href="#" onclick="volverTienda()">Tienda</a>
 
 <button id="btnCarrito" onclick="mostrarCarrito()">
 🛒 Carrito
 </button>
-
 </nav>
-
 </header>
 
-<section class="hero">
-<h2>Descubre tu estilo</h2>
-<p>Moda moderna para todos</p>
-</section>
-
-<section class="products">
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80">
-
-<div class="card-content">
-<h3>Polera Urbana</h3>
-<p class="price">S/ 50</p>
-<button onclick="agregarCarrito('Polera Urbana',50,'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80')">
-Comprar
-</button>
+<div id="seccionPublica">
+    <section class="hero">
+    <h2>Descubre tu estilo</h2>
+    <p>Moda moderna para todos</p>
+    </section>
+    <section class="products">
+    <div class="card">
+    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80">
+    <div class="card-content">
+    <h3>Polera Urbana</h3>
+    <p class="price">S/ 50</p>
+    <button onclick="agregarCarrito('Polera Urbana',50,'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80')">
+    Comprar
+    </button>
+    </div>
+    </div>
+    <div class="card">
+    <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=800&q=80">
+    <div class="card-content">
+    <h3>Jeans Clásicos</h3>
+    <p class="price">S/ 90</p>
+    <button onclick="agregarCarrito('Jeans Clásicos',90,'https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=800&q=80')">
+    Comprar
+    </button>
+    </div>
+    </div>
+    <div class="card">
+    <img src="https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?auto=format&fit=crop&w=800&q=80">
+    <div class="card-content">
+    <h3>Chaqueta Moderna</h3>
+    <p class="price">S/ 120</p>
+    <button onclick="agregarCarrito('Chaqueta Moderna',120,'https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?auto=format&fit=crop&w=800&q=80')">
+    Comprar
+    </button>
+    </div>
+    </div>
+    </section>
 </div>
-</div>
-<div class="card">
-<img src="https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=800&q=80">
-
-<div class="card-content">
-<h3>Jeans Clásicos</h3>
-<p class="price">S/ 90</p>
-
-<button onclick="agregarCarrito('Jeans Clásicos',90,'https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=800&q=80')">
-Comprar
-</button>
-
-</div>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?auto=format&fit=crop&w=800&q=80">
-
-<div class="card-content">
-<h3>Chaqueta Moderna</h3>
-<p class="price">S/ 120</p>
-
-<button onclick="agregarCarrito('Chaqueta Moderna',120,'https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?auto=format&fit=crop&w=800&q=80')">
-Comprar
-</button>
-
-</div>
-</div>
-
-</section>
 
 <div id="overlay" class="overlay" onclick="ocultarCarrito()"></div>
-
 <div class="carrito" id="carrito">
-
 <div class="carrito-header">
 <h2>Tu carrito</h2>
-<span class="cerrar" onclick="ocultarCarrito()">✕</span>
+<span class="cerrar" style="cursor:pointer" onclick="ocultarCarrito()">✕</span>
 </div>
-
 <div id="lista-carrito"></div>
-
 <div class="resumen">
-
 <div class="fila">
-<span>Subtotal</span>
-<span>S/ <span id="subtotal">0</span></span>
+<span>Subtotal: S/ </span><span id="subtotal">0</span>
 </div>
-
-<div class="fila total">
-<span>Total</span>
-<span>S/ <span id="total">0</span></span>
+<div class="fila total" style="font-weight:bold; margin-top:5px; margin-bottom:15px;">
+<span>Total: S/ </span><span id="total">0</span>
 </div>
-
 <button class="btn-finalizar" onclick="comprarProductos()">
 FINALIZA TU COMPRA
 </button>
-
 </div>
 </div>
 
+<div id="panelAdmin" style="display:none;">
+    <h2 class="crud-header">CRUD Database</h2>
+    
+    <div class="admin-nav">
+        <button class="btn-tab active" onclick="cambiarPestana('productos', this)">Productos</button>
+        <button class="btn-tab" onclick="cambiarPestana('clientes', this)">Clientes</button>
+        <button class="btn-tab" onclick="cambiarPestana('usuarios', this)">Usuarios</button>
+    </div>
 
-<div id="panelAdmin" style="display:none;padding:40px;">
-<h2>Panel Administrativo</h2>
-<button onclick="mostrarSeccion('productos')">Productos</button>
-<button onclick="mostrarSeccion('servicios')">Servicios</button>
-<button onclick="mostrarSeccion('clientes')">Clientes</button>
-<button onclick="mostrarSeccion('usuarios')">Usuarios</button>
-<hr>
-<div id="contenidoAdmin"></div>
+    <div id="contenidoAdmin"></div>
 </div>
 
 <footer>
@@ -401,131 +438,205 @@ FINALIZA TU COMPRA
 </footer>
 
 <script>
-
 let carrito = [];
 let total = 0;
 
+// Base de Datos en Memoria
+let BaseDatos = {
+    productos: [
+        { id: 35, nombre: "Polera Urbana", precio: "50", email: "urban@style.com", phone: "503-555-5555", location: "Portland, Oregon", hobby: "Photography" },
+        { id: 36, nombre: "Jeans Clásicos", precio: "90", email: "jeans@style.com", phone: "201-555-5555", location: "New York, New York", hobby: "" },
+        { id: 37, nombre: "Chaqueta Moderna", precio: "120", email: "chaqueta@style.com", phone: "503-555-5555", location: "Portland, Oregon", hobby: "Programming" }
+    ],
+    clientes: [
+        { id: 35, nombre: "Jane", precio: "Smith", email: "js@gmail.com", phone: "503-555-5555", location: "Portland, Oregon", hobby: "Photography" },
+        { id: 36, nombre: "Tristan", precio: "Rodriguez", email: "tr@gmail.com", phone: "201-555-5555", location: "New York, New York", hobby: "" },
+        { id: 37, nombre: "Andrea", precio: "Jones", email: "aj@gmail.com", phone: "503-555-5555", location: "Portland, Oregon", hobby: "Programming" },
+        { id: 38, nombre: "Elliott", precio: "Richardson", email: "er@gmail.com", phone: "", location: "Boise, Idaho", hobby: "" },
+        { id: 39, nombre: "June", precio: "Bug", email: "jb@gmail.com", phone: "", location: "", hobby: "Cooking" }
+    ],
+    usuarios: [
+        { id: 10, nombre: "Admin", precio: "Root", email: "admin@store.com", phone: "999-999-999", location: "Lima, Perú", hobby: "System" }
+    ]
+};
+
+let seccionActual = "productos";
+
 function toggleLogin(){
-    document.getElementById("loginDropdown")
-    .classList.toggle("activo");
+    document.getElementById("loginDropdown").classList.toggle("activo");
 }
 
 document.addEventListener("click", function(e){
-
-    let menu =
-    document.querySelector(".login-menu");
-
-    if(!menu.contains(e.target)){
-        document.getElementById("loginDropdown")
-        .classList.remove("activo");
+    let menu = document.querySelector(".login-menu");
+    if(menu && !menu.contains(e.target)){
+        document.getElementById("loginDropdown").classList.remove("activo");
     }
-
 });
 
-
 function login(){
- let usuario=document.getElementById("usuario").value;
- let clave=document.getElementById("clave").value;
-
- if(usuario==="admin" && clave==="1234"){
-   document.querySelector(".hero").style.display="none";
-   document.querySelector(".products").style.display="none";
-   document.getElementById("panelAdmin").style.display="block";
- }else{
+ let usuario = document.getElementById("usuario").value;
+ let clave = document.getElementById("clave").value;
+ 
+ if(usuario === "admin" && clave === "1234"){
+   document.getElementById("seccionPublica").style.display = "none";
+   document.getElementById("panelAdmin").style.display = "block";
+   document.getElementById("loginDropdown").classList.remove("activo");
+   renderizarTabla();
+ } else {
    alert("Usuario o contraseña incorrectos");
  }
 }
 
-function mostrarSeccion(tipo){
- document.getElementById("contenidoAdmin").innerHTML=`
- <h3>${tipo.toUpperCase()}</h3>
- <button>Agregar</button>
- <button>Modificar</button>
- <button>Eliminar</button>`;
+function volverTienda() {
+    document.getElementById("seccionPublica").style.display = "block";
+    document.getElementById("panelAdmin").style.display = "none";
 }
 
-
-function mostrarCarrito(){
-    document.getElementById("carrito")
-    .classList.add("activo");
-
-    document.getElementById("overlay")
-    .classList.add("activo");
+function cambiarPestana(tipo, boton) {
+    seccionActual = tipo;
+    document.querySelectorAll('.btn-tab').forEach(b => b.classList.remove('active'));
+    boton.classList.add('active');
+    renderizarTabla();
 }
 
-function ocultarCarrito(){
-    document.getElementById("carrito")
-    .classList.remove("activo");
+function renderizarTabla() {
+    let datos = BaseDatos[seccionActual];
+    let html = `
+    <table class="crud-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First</th>
+                <th>Last</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Location</th>
+                <th>Hobby</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+    `;
 
-    document.getElementById("overlay")
-    .classList.remove("activo");
-}
-
-function agregarCarrito(nombre,precio,imagen){
-
-    carrito.push({
-        nombre,
-        precio,
-        imagen
+    datos.forEach((item, index) => {
+        html += `
+        <tr>
+            <td><strong>${item.id}</strong></td>
+            <td>${item.nombre}</td>
+            <td>${item.precio}</td>
+            <td>${item.email}</td>
+            <td>${item.phone || ''}</td>
+            <td>${item.location || ''}</td>
+            <td>${item.hobby || ''}</td>
+            <td>
+                <button class="btn-action-edit" onclick="editarItem(${index})">Edit</button>
+                <button class="btn-action-del" onclick="eliminarItem(${index})">Del</button>
+            </td>
+        </tr>
+        `;
     });
 
+    html += `
+        </tbody>
+    </table>
+    <button class="btn-download-csv" onclick="alert('Descargando CSV...')">Download CSV</button>
+    <button class="btn-add-item" onclick="agregarItem()">Add Item</button>
+    `;
+
+    document.getElementById("contenidoAdmin").innerHTML = html;
+}
+
+function agregarItem() {
+    let nombre = prompt("Ingrese Nombre / First:");
+    if(!nombre) return;
+    let precio = prompt("Ingrese Detalle / Last:");
+    let email = prompt("Ingrese Email:");
+    let phone = prompt("Ingrese Phone:");
+    let location = prompt("Ingrese Location:");
+    let hobby = prompt("Ingrese Hobby:");
+
+    let nuevoId = BaseDatos[seccionActual].length > 0 ? BaseDatos[seccionActual][BaseDatos[seccionActual].length - 1].id + 1 : 1;
+
+    BaseDatos[seccionActual].push({
+        id: nuevoId, nombre, precio, email, phone, location, hobby
+    });
+
+    renderizarTabla();
+}
+
+function editarItem(index) {
+    let item = BaseDatos[seccionActual][index];
+
+    let nuevoNombre = prompt("Editar Nombre / First:", item.nombre);
+    let nuevoPrecio = prompt("Editar Detalle / Last:", item.precio);
+    let nuevoEmail = prompt("Editar Email:", item.email);
+    let nuevoPhone = prompt("Editar Phone:", item.phone);
+    let nuevaLocation = prompt("Editar Location:", item.location);
+    let nuevoHobby = prompt("Editar Hobby:", item.hobby);
+
+    if(nuevoNombre !== null) item.nombre = nuevoNombre;
+    if(nuevoPrecio !== null) item.precio = nuevoPrecio;
+    if(nuevoEmail !== null) item.email = nuevoEmail;
+    if(nuevoPhone !== null) item.phone = nuevoPhone;
+    if(nuevaLocation !== null) item.location = nuevaLocation;
+    if(nuevoHobby !== null) item.hobby = nuevoHobby;
+
+    renderizarTabla();
+}
+
+function eliminarItem(index) {
+    if(confirm("¿Estás seguro de eliminar este registro?")) {
+        BaseDatos[seccionActual].splice(index, 1);
+        renderizarTabla();
+    }
+}
+
+function mostrarCarrito(){
+    document.getElementById("carrito").classList.add("activo");
+    document.getElementById("overlay").classList.add("activo");
+}
+function ocultarCarrito(){
+    document.getElementById("carrito").classList.remove("activo");
+    document.getElementById("overlay").classList.remove("activo");
+}
+function agregarCarrito(nombre,precio,imagen){
+    carrito.push({nombre, precio, imagen});
     actualizarCarrito();
     mostrarCarrito();
 }
-
 function eliminarProducto(index){
     carrito.splice(index,1);
     actualizarCarrito();
 }
-
 function actualizarCarrito(){
-
-    let lista =
-    document.getElementById("lista-carrito");
-
+    let lista = document.getElementById("lista-carrito");
     lista.innerHTML = "";
     total = 0;
-
     carrito.forEach((producto,index)=>{
-
         total += producto.precio;
-
         lista.innerHTML += `
         <div class="item-carrito">
-            <img src="${producto.imagen}" width="90">
-
-            <div class="info-producto">
-                <h4>${producto.nombre}</h4>
-                <div class="precio-item">
-                    S/ ${producto.precio}
-                </div>
+            <img src="${producto.imagen}" width="60" style="border-radius:4px; object-fit:cover; height:60px;">
+            <div class="info-producto" style="flex:1; margin-left:10px;">
+                <h4 style="font-size:14px;">${producto.nombre}</h4>
+                <div class="precio-item" style="color:#d7261e; font-weight:bold;">S/ ${producto.precio}</div>
             </div>
-
-            <button onclick="eliminarProducto(${index})">
-            🗑
-            </button>
+            <button onclick="eliminarProducto(${index})" style="background:none; border:none; cursor:pointer; font-size:18px;">🗑</button>
         </div>`;
     });
-
     document.getElementById("subtotal").textContent = total;
     document.getElementById("total").textContent = total;
 }
-
 function comprarProductos(){
-
     if(carrito.length===0){
         alert("El carrito está vacío");
         return;
     }
-
     alert("Compra realizada correctamente\n\nTotal: S/ " + total);
-
     carrito = [];
     actualizarCarrito();
     ocultarCarrito();
 }
-
 </script>
-
 </body>
 </html>
