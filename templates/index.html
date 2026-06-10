@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StyleStore - Tienda Moderna con CRUD</title>
+<title>StyleStore - Tienda Moderna Dinámica con CRUD</title>
 <style>
 *{
     margin:0;
@@ -225,7 +225,7 @@ nav a{
 }
 
 /* ==========================================================
-   ESTILOS PARA EL PANEL ADMIN / CRUD (EN ESPAÑOL)
+   ESTILOS PARA EL PANEL ADMIN / CRUD
    ========================================================== */
 #panelAdmin {
     max-width: 1200px;
@@ -261,7 +261,6 @@ nav a{
     margin-bottom: 20px;
     color: #222;
 }
-/* Estilo de la Tabla Base de Datos */
 .crud-table {
     width: 100%;
     border-collapse: collapse;
@@ -284,7 +283,6 @@ nav a{
 .crud-table tr:nth-child(even) {
     background-color: #f9f9f9;
 }
-/* Botones del Dashboard */
 .btn-action-edit {
     background: #ffb703;
     color: #222;
@@ -353,7 +351,6 @@ footer{
 </div>
 
 <a href="#" onclick="volverTienda()">Inicio</a>
-
 <a href="#" onclick="volverTienda()">Tienda</a>
 
 <button id="btnCarrito" onclick="mostrarCarrito()">
@@ -367,38 +364,8 @@ footer{
     <h2>Descubre tu estilo</h2>
     <p>Moda moderna para todos</p>
     </section>
-    <section class="products">
-    <div class="card">
-    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80">
-    <div class="card-content">
-    <h3>Polera Urbana</h3>
-    <p class="price">S/ 50</p>
-    <button onclick="agregarCarrito('Polera Urbana',50,'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80')">
-    Comprar
-    </button>
-    </div>
-    </div>
-    <div class="card">
-    <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=800&q=80">
-    <div class="card-content">
-    <h3>Jeans Clásicos</h3>
-    <p class="price">S/ 90</p>
-    <button onclick="agregarCarrito('Jeans Clásicos',90,'https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=800&q=80')">
-    Comprar
-    </button>
-    </div>
-    </div>
-    <div class="card">
-    <img src="https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?auto=format&fit=crop&w=800&q=80">
-    <div class="card-content">
-    <h3>Chaqueta Moderna</h3>
-    <p class="price">S/ 120</p>
-    <button onclick="agregarCarrito('Chaqueta Moderna',120,'https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?auto=format&fit=crop&w=800&q=80')">
-    Comprar
-    </button>
-    </div>
-    </div>
-    </section>
+    
+    <section class="products" id="contenedorProductosTienda"></section>
 </div>
 
 <div id="overlay" class="overlay" onclick="ocultarCarrito()"></div>
@@ -422,7 +389,7 @@ FINALIZA TU COMPRA
 </div>
 
 <div id="panelAdmin" style="display:none;">
-    <h2 class="crud-header">Panel Administrativo</h2>
+    <h2 class="crud-header">Base de Datos CRUD</h2>
     
     <div class="admin-nav">
         <button class="btn-tab active" onclick="cambiarPestana('productos', this)">Productos</button>
@@ -441,26 +408,52 @@ FINALIZA TU COMPRA
 let carrito = [];
 let total = 0;
 
-// Base de Datos en Memoria Localizada
+// Base de Datos en Memoria Localizada con soporte de imágenes para Productos
 let BaseDatos = {
     productos: [
-        { id: 35, nombre: "Polera Urbana", apellido: "Prenda de Vestir", email: "urban@style.com", telefono: "503-555-5555", ubicacion: "Portland, Oregon", hobby: "Fotografía" },
-        { id: 36, nombre: "Jeans Clásicos", apellido: "Pantalón Denim", email: "jeans@style.com", telefono: "201-555-5555", ubicacion: "New York, New York", hobby: "Diseño" },
-        { id: 37, nombre: "Chaqueta Moderna", apellido: "Abrigo Urbano", email: "chaqueta@style.com", telefono: "503-555-5555", ubicacion: "Portland, Oregon", hobby: "Programación" }
+        { id: 35, nombre: "Polera Urbana", precio: "50", email: "urban@style.com", telefono: "503-555-5555", ubicacion: "Sección A", hobby: "Nueva Colección", imagen: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80" },
+        { id: 36, nombre: "Jeans Clásicos", precio: "90", email: "jeans@style.com", telefono: "201-555-5555", ubicacion: "Sección B", hobby: "Denim Premium", imagen: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=800&q=80" },
+        { id: 37, nombre: "Chaqueta Moderna", precio: "120", email: "chaqueta@style.com", telefono: "503-555-5555", ubicacion: "Sección A", hobby: "Invierno", imagen: "https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?auto=format&fit=crop&w=800&q=80" }
     ],
     clientes: [
-        { id: 35, nombre: "Jane", apellido: "Smith", email: "js@gmail.com", telefono: "503-555-5555", ubicacion: "Portland, Oregon", hobby: "Fotografía" },
-        { id: 36, nombre: "Tristan", apellido: "Rodriguez", email: "tr@gmail.com", telefono: "201-555-5555", ubicacion: "New York, New York", hobby: "Ciclismo" },
-        { id: 37, nombre: "Andrea", apellido: "Jones", email: "aj@gmail.com", telefono: "503-555-5555", ubicacion: "Portland, Oregon", hobby: "Programación" },
-        { id: 38, nombre: "Elliott", apellido: "Richardson", email: "er@gmail.com", telefono: "", ubicacion: "Boise, Idaho", hobby: "Música" },
-        { id: 39, font: "June", apellido: "Bug", email: "jb@gmail.com", telefono: "", ubicacion: "", hobby: "Cocina" }
+        { id: 1, nombre: "Jane", precio: "Smith", email: "js@gmail.com", telefono: "503-555-5555", ubicacion: "Portland, Oregon", hobby: "Fotografía", imagen: "" },
+        { id: 2, nombre: "Tristan", precio: "Rodriguez", email: "tr@gmail.com", telefono: "201-555-5555", ubicacion: "New York, New York", hobby: "Ciclismo", imagen: "" }
     ],
     usuarios: [
-        { id: 10, nombre: "Admin", apellido: "SuperUsuario", email: "admin@store.com", telefono: "999-999-999", ubicacion: "Lima, Perú", hobby: "Sistemas" }
+        { id: 10, nombre: "Admin", precio: "Root", email: "admin@store.com", telefono: "999-999-999", ubicacion: "Lima, Perú", hobby: "Sistemas", imagen: "" }
     ]
 };
 
 let seccionActual = "productos";
+
+// Cargar los productos en la tienda apenas abra la página
+document.addEventListener("DOMContentLoaded", () => {
+    renderizarProductosTienda();
+});
+
+// RENDERIZAR PRODUCTOS EN EL INICIO DINÁMICAMENTE
+function renderizarProductosTienda() {
+    let contenedor = document.getElementById("contenedorProductosTienda");
+    contenedor.innerHTML = "";
+    
+    BaseDatos.productos.forEach(prod => {
+        // En caso de que no tenga una imagen válida, poner una por defecto
+        let imgUrl = prod.imagen || 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=800&q=80';
+        
+        contenedor.innerHTML += `
+        <div class="card">
+            <img src="${imgUrl}">
+            <div class="card-content">
+                <h3>${prod.nombre}</h3>
+                <p class="price">S/ ${prod.precio}</p>
+                <button onclick="agregarCarrito('${prod.nombre}', ${prod.precio}, '${imgUrl}')">
+                Comprar
+                </button>
+            </div>
+        </div>
+        `;
+    });
+}
 
 function toggleLogin(){
     document.getElementById("loginDropdown").classList.toggle("activo");
@@ -490,6 +483,7 @@ function login(){
 function volverTienda() {
     document.getElementById("seccionPublica").style.display = "block";
     document.getElementById("panelAdmin").style.display = "none";
+    renderizarProductosTienda(); // Actualiza la tienda por si hubo cambios en el CRUD
 }
 
 function cambiarPestana(tipo, boton) {
@@ -501,17 +495,23 @@ function cambiarPestana(tipo, boton) {
 
 function renderizarTabla() {
     let datos = BaseDatos[seccionActual];
+    
+    // Cambiar las etiquetas dependiendo de si son productos u otros datos
+    let columnaPrecioDetalle = seccionActual === "productos" ? "Precio (S/)" : "Apellido / Detalle";
+    let columnaHobbyInfo = seccionActual === "productos" ? "Etiqueta / Descripción" : "Hobby / Interés";
+
     let html = `
     <table class="crud-table">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
-                <th>Apellido / Detalle</th>
-                <th>Correo Electrónico</th>
-                <th>Teléfono</th>
+                <th>${columnaPrecioDetalle}</th>
+                <th>Correo</th>
+                <th>Teléfono / Tel.</th>
                 <th>Ubicación</th>
-                <th>Hobby / Interés</th>
+                <th>${columnaHobbyInfo}</th>
+                ${seccionActual === "productos" ? "<th>Imagen (URL)</th>" : ""}
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -523,11 +523,12 @@ function renderizarTabla() {
         <tr>
             <td><strong>${item.id}</strong></td>
             <td>${item.nombre}</td>
-            <td>${item.apellido}</td>
+            <td>S/ ${item.precio}</td>
             <td>${item.email}</td>
             <td>${item.telefono || ''}</td>
             <td>${item.ubicacion || ''}</td>
             <td>${item.hobby || ''}</td>
+            ${seccionActual === "productos" ? `<td style="max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:11px; color:#666">${item.imagen || ''}</td>` : ""}
             <td>
                 <button class="btn-action-edit" onclick="editarItem(${index})">Editar</button>
                 <button class="btn-action-del" onclick="eliminarItem(${index})">Eliminar</button>
@@ -547,50 +548,66 @@ function renderizarTabla() {
 }
 
 function agregarItem() {
-    let nombre = prompt("Ingrese Nombre:");
+    let nombre = prompt("Ingrese Nombre del artículo:");
     if(!nombre) return;
-    let apellido = prompt("Ingrese Apellido o Detalle:");
-    let email = prompt("Ingrese Correo Electrónico:");
-    let telefono = prompt("Ingrese Teléfono:");
-    let ubicacion = prompt("Ingrese Ubicación:");
-    let hobby = prompt("Ingrese Hobby:");
+    
+    let precio = prompt("Ingrese el Precio (Solo números):", "50");
+    let email = prompt("Ingrese Correo / Identificador de contacto:", "tienda@store.com");
+    let telefono = prompt("Ingrese Teléfono o código interno:");
+    let ubicacion = prompt("Ingrese Ubicación o Almacén:");
+    let hobby = prompt("Ingrese una Descripción breve o Categoría:");
+    
+    let imagen = "";
+    if(seccionActual === "productos") {
+        imagen = prompt("Pegue la URL de la Imagen del Producto (Puedes usar links de Unsplash o cualquier imagen web):", "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=800&q=80");
+    }
 
     let nuevoId = BaseDatos[seccionActual].length > 0 ? BaseDatos[seccionActual][BaseDatos[seccionActual].length - 1].id + 1 : 1;
 
     BaseDatos[seccionActual].push({
-        id: nuevoId, nombre, apellido, email, telefono, ubicacion, hobby
+        id: nuevoId, nombre, precio, email, telefono, ubicacion, hobby, imagen
     });
 
     renderizarTabla();
+    renderizarProductosTienda(); // Actualiza el repositorio para cuando regresemos
 }
 
 function editarItem(index) {
     let item = BaseDatos[seccionActual][index];
 
     let nuevoNombre = prompt("Editar Nombre:", item.nombre);
-    let nuevoApellido = prompt("Editar Apellido / Detalle:", item.apellido);
+    let nuevoPrecio = prompt("Editar Precio / Detalle:", item.precio);
     let nuevoEmail = prompt("Editar Correo:", item.email);
     let nuevoTelefono = prompt("Editar Teléfono:", item.telefono);
     let nuevaUbicacion = prompt("Editar Ubicación:", item.ubicacion);
-    let nuevoHobby = prompt("Editar Hobby:", item.hobby);
+    let nuevoHobby = prompt("Editar Descripción / Hobby:", item.hobby);
+    
+    let nuevaImagen = item.imagen;
+    if(seccionActual === "productos") {
+        nuevaImagen = prompt("Editar URL de la Imagen:", item.imagen);
+    }
 
     if(nuevoNombre !== null) item.nombre = nuevoNombre;
-    if(nuevoApellido !== null) item.apellido = nuevoApellido;
+    if(nuevoPrecio !== null) item.precio = nuevoPrecio;
     if(nuevoEmail !== null) item.email = nuevoEmail;
     if(nuevoTelefono !== null) item.telefono = nuevoTelefono;
     if(nuevaUbicacion !== null) item.ubicacion = nuevaUbicacion;
     if(nuevoHobby !== null) item.hobby = nuevoHobby;
+    if(nuevaImagen !== null) item.imagen = nuevaImagen;
 
     renderizarTabla();
+    renderizarProductosTienda();
 }
 
 function eliminarItem(index) {
     if(confirm("¿Estás completamente seguro de eliminar este registro?")) {
         BaseDatos[seccionActual].splice(index, 1);
         renderizarTabla();
+        renderizarProductosTienda();
     }
 }
 
+// FUNCIONES DEL CARRITO DE COMPRAS
 function mostrarCarrito(){
     document.getElementById("carrito").classList.add("activo");
     document.getElementById("overlay").classList.add("activo");
@@ -613,7 +630,7 @@ function actualizarCarrito(){
     lista.innerHTML = "";
     total = 0;
     carrito.forEach((producto,index)=>{
-        total += producto.precio;
+        total += parseFloat(producto.precio);
         lista.innerHTML += `
         <div class="item-carrito">
             <img src="${producto.imagen}" width="60" style="border-radius:4px; object-fit:cover; height:60px;">
