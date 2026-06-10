@@ -338,8 +338,6 @@ footer{
 <header>
 <h1>StyleStore</h1>
 <nav>
-<a href="#" onclick="volverTienda()">Inicio</a>
-
 <div class="login-menu">
     <button class="btn-login" onclick="toggleLogin()">
     Iniciar sesión
@@ -353,6 +351,8 @@ footer{
     </button>
     </div>
 </div>
+
+<a href="#" onclick="volverTienda()">Inicio</a>
 
 <a href="#" onclick="volverTienda()">Tienda</a>
 
@@ -422,7 +422,7 @@ FINALIZA TU COMPRA
 </div>
 
 <div id="panelAdmin" style="display:none;">
-    <h2 class="crud-header">Panel Administrativo</h2>
+    <h2 class="crud-header">Base de Datos CRUD</h2>
     
     <div class="admin-nav">
         <button class="btn-tab active" onclick="cambiarPestana('productos', this)">Productos</button>
@@ -453,7 +453,7 @@ let BaseDatos = {
         { id: 36, nombre: "Tristan", apellido: "Rodriguez", email: "tr@gmail.com", telefono: "201-555-5555", ubicacion: "New York, New York", hobby: "Ciclismo" },
         { id: 37, nombre: "Andrea", apellido: "Jones", email: "aj@gmail.com", telefono: "503-555-5555", ubicacion: "Portland, Oregon", hobby: "Programación" },
         { id: 38, nombre: "Elliott", apellido: "Richardson", email: "er@gmail.com", telefono: "", ubicacion: "Boise, Idaho", hobby: "Música" },
-        { id: 39, nombre: "June", apellido: "Bug", email: "jb@gmail.com", telefono: "", ubicacion: "", hobby: "Cocina" }
+        { id: 39, font: "June", apellido: "Bug", email: "jb@gmail.com", telefono: "", ubicacion: "", hobby: "Cocina" }
     ],
     usuarios: [
         { id: 10, nombre: "Admin", apellido: "SuperUsuario", email: "admin@store.com", telefono: "999-999-999", ubicacion: "Lima, Perú", hobby: "Sistemas" }
