@@ -495,9 +495,10 @@ function ocultarCarrito(){
 function agregarCarrito(nombre,precio,imagen){
 
     carrito.push({
-        nombre,
-        precio,
-        imagen
+        nombre: nombre,
+        precio: precio,
+        imagen: imagen,
+        cantidad: 1
     });
 
     actualizarCarrito();
@@ -506,6 +507,19 @@ function agregarCarrito(nombre,precio,imagen){
 
 function eliminarProducto(index){
     carrito.splice(index,1);
+    actualizarCarrito();
+}
+
+function cambiarCantidad(index, cantidad){
+
+    cantidad = parseInt(cantidad);
+
+    if(cantidad < 1){
+        cantidad = 1;
+    }
+
+    carrito[index].cantidad = cantidad;
+
     actualizarCarrito();
 }
 
@@ -520,7 +534,7 @@ function actualizarCarrito(){
 
     carrito.forEach((producto,index)=>{
 
-        total += producto.precio;
+        total += producto.precio * producto.cantidad;
 
         lista.innerHTML += `
         <div class="item-carrito">
@@ -534,14 +548,15 @@ function actualizarCarrito(){
                 <p>Talla: M</p>
 
                 <div class="precio-item">
-                    S/ ${producto.precio}
+                    S/ ${producto.precio * producto.cantidad}
                 </div>
 
                 <input
                 type="number"
-                value="1"
+                value="${producto.cantidad}"
                 min="1"
-                class="cantidad">
+                class="cantidad"
+                onchange="cambiarCantidad(${index}, this.value)">
 
             </div>
 
