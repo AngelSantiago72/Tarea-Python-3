@@ -225,7 +225,7 @@ nav a{
 }
 
 /* ==========================================================
-   ESTILOS PARA EL PANEL ADMIN / CRUD 
+   ESTILOS PARA EL PANEL ADMIN / CRUD (EN ESPAÑOL)
    ========================================================== */
 #panelAdmin {
     max-width: 1200px;
@@ -261,7 +261,7 @@ nav a{
     margin-bottom: 20px;
     color: #222;
 }
-/* Estilo Tabla exacto a la captura */
+/* Estilo de la Tabla Base de Datos */
 .crud-table {
     width: 100%;
     border-collapse: collapse;
@@ -282,9 +282,9 @@ nav a{
     font-size: 15px;
 }
 .crud-table tr:nth-child(even) {
-    background-color: #f9f9f9; /* Alternancia de gris de la imagen */
+    background-color: #f9f9f9;
 }
-/* Botones de acción */
+/* Botones del Dashboard */
 .btn-action-edit {
     background: #ffb703;
     color: #222;
@@ -422,7 +422,7 @@ FINALIZA TU COMPRA
 </div>
 
 <div id="panelAdmin" style="display:none;">
-    <h2 class="crud-header">CRUD Database</h2>
+    <h2 class="crud-header">Panel Administrativo</h2>
     
     <div class="admin-nav">
         <button class="btn-tab active" onclick="cambiarPestana('productos', this)">Productos</button>
@@ -441,22 +441,22 @@ FINALIZA TU COMPRA
 let carrito = [];
 let total = 0;
 
-// Base de Datos en Memoria
+// Base de Datos en Memoria Localizada
 let BaseDatos = {
     productos: [
-        { id: 35, nombre: "Polera Urbana", precio: "50", email: "urban@style.com", phone: "503-555-5555", location: "Portland, Oregon", hobby: "Photography" },
-        { id: 36, nombre: "Jeans Clásicos", precio: "90", email: "jeans@style.com", phone: "201-555-5555", location: "New York, New York", hobby: "" },
-        { id: 37, nombre: "Chaqueta Moderna", precio: "120", email: "chaqueta@style.com", phone: "503-555-5555", location: "Portland, Oregon", hobby: "Programming" }
+        { id: 35, nombre: "Polera Urbana", apellido: "Prenda de Vestir", email: "urban@style.com", telefono: "503-555-5555", ubicacion: "Portland, Oregon", hobby: "Fotografía" },
+        { id: 36, nombre: "Jeans Clásicos", apellido: "Pantalón Denim", email: "jeans@style.com", telefono: "201-555-5555", ubicacion: "New York, New York", hobby: "Diseño" },
+        { id: 37, nombre: "Chaqueta Moderna", apellido: "Abrigo Urbano", email: "chaqueta@style.com", telefono: "503-555-5555", ubicacion: "Portland, Oregon", hobby: "Programación" }
     ],
     clientes: [
-        { id: 35, nombre: "Jane", precio: "Smith", email: "js@gmail.com", phone: "503-555-5555", location: "Portland, Oregon", hobby: "Photography" },
-        { id: 36, nombre: "Tristan", precio: "Rodriguez", email: "tr@gmail.com", phone: "201-555-5555", location: "New York, New York", hobby: "" },
-        { id: 37, nombre: "Andrea", precio: "Jones", email: "aj@gmail.com", phone: "503-555-5555", location: "Portland, Oregon", hobby: "Programming" },
-        { id: 38, nombre: "Elliott", precio: "Richardson", email: "er@gmail.com", phone: "", location: "Boise, Idaho", hobby: "" },
-        { id: 39, nombre: "June", precio: "Bug", email: "jb@gmail.com", phone: "", location: "", hobby: "Cooking" }
+        { id: 35, nombre: "Jane", apellido: "Smith", email: "js@gmail.com", telefono: "503-555-5555", ubicacion: "Portland, Oregon", hobby: "Fotografía" },
+        { id: 36, nombre: "Tristan", apellido: "Rodriguez", email: "tr@gmail.com", telefono: "201-555-5555", ubicacion: "New York, New York", hobby: "Ciclismo" },
+        { id: 37, nombre: "Andrea", apellido: "Jones", email: "aj@gmail.com", telefono: "503-555-5555", ubicacion: "Portland, Oregon", hobby: "Programación" },
+        { id: 38, nombre: "Elliott", apellido: "Richardson", email: "er@gmail.com", telefono: "", ubicacion: "Boise, Idaho", hobby: "Música" },
+        { id: 39, nombre: "June", apellido: "Bug", email: "jb@gmail.com", telefono: "", ubicacion: "", hobby: "Cocina" }
     ],
     usuarios: [
-        { id: 10, nombre: "Admin", precio: "Root", email: "admin@store.com", phone: "999-999-999", location: "Lima, Perú", hobby: "System" }
+        { id: 10, nombre: "Admin", apellido: "SuperUsuario", email: "admin@store.com", telefono: "999-999-999", ubicacion: "Lima, Perú", hobby: "Sistemas" }
     ]
 };
 
@@ -506,13 +506,13 @@ function renderizarTabla() {
         <thead>
             <tr>
                 <th>ID</th>
-                <th>First</th>
-                <th>Last</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Location</th>
-                <th>Hobby</th>
-                <th>Actions</th>
+                <th>Nombre</th>
+                <th>Apellido / Detalle</th>
+                <th>Correo Electrónico</th>
+                <th>Teléfono</th>
+                <th>Ubicación</th>
+                <th>Hobby / Interés</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -523,14 +523,14 @@ function renderizarTabla() {
         <tr>
             <td><strong>${item.id}</strong></td>
             <td>${item.nombre}</td>
-            <td>${item.precio}</td>
+            <td>${item.apellido}</td>
             <td>${item.email}</td>
-            <td>${item.phone || ''}</td>
-            <td>${item.location || ''}</td>
+            <td>${item.telefono || ''}</td>
+            <td>${item.ubicacion || ''}</td>
             <td>${item.hobby || ''}</td>
             <td>
-                <button class="btn-action-edit" onclick="editarItem(${index})">Edit</button>
-                <button class="btn-action-del" onclick="eliminarItem(${index})">Del</button>
+                <button class="btn-action-edit" onclick="editarItem(${index})">Editar</button>
+                <button class="btn-action-del" onclick="eliminarItem(${index})">Eliminar</button>
             </td>
         </tr>
         `;
@@ -539,26 +539,26 @@ function renderizarTabla() {
     html += `
         </tbody>
     </table>
-    <button class="btn-download-csv" onclick="alert('Descargando CSV...')">Download CSV</button>
-    <button class="btn-add-item" onclick="agregarItem()">Add Item</button>
+    <button class="btn-download-csv" onclick="alert('Descargando archivo CSV...')">Descargar CSV</button>
+    <button class="btn-add-item" onclick="agregarItem()">Agregar Registro</button>
     `;
 
     document.getElementById("contenidoAdmin").innerHTML = html;
 }
 
 function agregarItem() {
-    let nombre = prompt("Ingrese Nombre / First:");
+    let nombre = prompt("Ingrese Nombre:");
     if(!nombre) return;
-    let precio = prompt("Ingrese Detalle / Last:");
-    let email = prompt("Ingrese Email:");
-    let phone = prompt("Ingrese Phone:");
-    let location = prompt("Ingrese Location:");
+    let apellido = prompt("Ingrese Apellido o Detalle:");
+    let email = prompt("Ingrese Correo Electrónico:");
+    let telefono = prompt("Ingrese Teléfono:");
+    let ubicacion = prompt("Ingrese Ubicación:");
     let hobby = prompt("Ingrese Hobby:");
 
     let nuevoId = BaseDatos[seccionActual].length > 0 ? BaseDatos[seccionActual][BaseDatos[seccionActual].length - 1].id + 1 : 1;
 
     BaseDatos[seccionActual].push({
-        id: nuevoId, nombre, precio, email, phone, location, hobby
+        id: nuevoId, nombre, apellido, email, telefono, ubicacion, hobby
     });
 
     renderizarTabla();
@@ -567,25 +567,25 @@ function agregarItem() {
 function editarItem(index) {
     let item = BaseDatos[seccionActual][index];
 
-    let nuevoNombre = prompt("Editar Nombre / First:", item.nombre);
-    let nuevoPrecio = prompt("Editar Detalle / Last:", item.precio);
-    let nuevoEmail = prompt("Editar Email:", item.email);
-    let nuevoPhone = prompt("Editar Phone:", item.phone);
-    let nuevaLocation = prompt("Editar Location:", item.location);
+    let nuevoNombre = prompt("Editar Nombre:", item.nombre);
+    let nuevoApellido = prompt("Editar Apellido / Detalle:", item.apellido);
+    let nuevoEmail = prompt("Editar Correo:", item.email);
+    let nuevoTelefono = prompt("Editar Teléfono:", item.telefono);
+    let nuevaUbicacion = prompt("Editar Ubicación:", item.ubicacion);
     let nuevoHobby = prompt("Editar Hobby:", item.hobby);
 
     if(nuevoNombre !== null) item.nombre = nuevoNombre;
-    if(nuevoPrecio !== null) item.precio = nuevoPrecio;
+    if(nuevoApellido !== null) item.apellido = nuevoApellido;
     if(nuevoEmail !== null) item.email = nuevoEmail;
-    if(nuevoPhone !== null) item.phone = nuevoPhone;
-    if(nuevaLocation !== null) item.location = nuevaLocation;
+    if(nuevoTelefono !== null) item.telefono = nuevoTelefono;
+    if(nuevaUbicacion !== null) item.ubicacion = nuevaUbicacion;
     if(nuevoHobby !== null) item.hobby = nuevoHobby;
 
     renderizarTabla();
 }
 
 function eliminarItem(index) {
-    if(confirm("¿Estás seguro de eliminar este registro?")) {
+    if(confirm("¿Estás completamente seguro de eliminar este registro?")) {
         BaseDatos[seccionActual].splice(index, 1);
         renderizarTabla();
     }
@@ -632,7 +632,7 @@ function comprarProductos(){
         alert("El carrito está vacío");
         return;
     }
-    alert("Compra realizada correctamente\n\nTotal: S/ " + total);
+    alert("¡Compra realizada correctamente!\n\nTotal: S/ " + total);
     carrito = [];
     actualizarCarrito();
     ocultarCarrito();
