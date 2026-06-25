@@ -3,656 +3,131 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StyleStore - Tienda Moderna Dinámica con CRUD</title>
+<title>StyleStore - Admin Dashboard</title>
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
-}
-body{
-    background:#f5f5f5;
-}
-/* HEADER */
-header{
-    background:#111;
-    color:white;
-    padding:20px 40px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-header h1{
-    font-size:28px;
-}
-nav{
-    display:flex;
-    gap:20px;
-    align-items:center;
-}
-/* LOGIN */
-.login-menu{
-    position:relative;
-}
-.btn-login{
-    background:transparent;
-    color:white;
-    border:2px solid #d7261e;
-    padding:10px 18px;
-    border-radius:6px;
-    cursor:pointer;
-    font-weight:bold;
-    transition:.3s;
-}
-.btn-login:hover{
-    background:#d7261e;
-}
-.login-dropdown{
-    position:absolute;
-    top:55px;
-    right:0;
-    width:300px;
-    background:#111;
-    border-radius:10px;
-    padding:20px;
-    box-shadow:0 10px 25px rgba(0,0,0,.4);
-    opacity:0;
-    visibility:hidden;
-    transform:translateY(-10px);
-    transition:.3s;
-    z-index:2000;
-}
-.login-dropdown.activo{
-    opacity:1;
-    visibility:visible;
-    transform:translateY(0);
-}
-.login-dropdown h3{
-    color:#d7261e;
-    margin-bottom:20px;
-}
-.login-dropdown input{
-    width:100%;
-    padding:12px;
-    margin-bottom:15px;
-    border:none;
-    border-radius:5px;
-    background:#222;
-    color:white;
-}
-.btn-ingresar{
-    width:100%;
-    padding:12px;
-    border:none;
-    background:#d7261e;
-    color:white;
-    font-weight:bold;
-    border-radius:5px;
-    cursor:pointer;
-}
-nav a{
-    color:white;
-    text-decoration:none;
-}
-#btnCarrito{
-    background:#d7261e;
-    color:white;
-    border:none;
-    padding:12px 18px;
-    border-radius:5px;
-    cursor:pointer;
-    font-weight:bold;
-}
-/* HERO */
-.hero{
-    background:
-    linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)),
-    url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1400&q=80');
-    background-size:cover;
-    background-position:center;
-    color:white;
-    text-align:center;
-    padding:120px 20px;
-}
-.hero h2{
-    font-size:55px;
-}
-.hero p{
-    margin-top:10px;
-    font-size:20px;
-}
-.products{
-    padding:40px;
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:25px;
-}
-.card{
-    background:white;
-    border-radius:12px;
-    overflow:hidden;
-    box-shadow:0 4px 10px rgba(0,0,0,.1);
-}
-.card img{
-    width:100%;
-    height:320px;
-    object-fit:cover;
-}
-.card-content{
-    padding:15px;
-    text-align:center;
-}
-.price{
-    color:#d7261e;
-    font-size:24px;
-    font-weight:bold;
-}
-.card button{
-    margin-top:15px;
-    width:100%;
-    padding:12px;
-    background:black;
-    color:white;
-    border:none;
-    cursor:pointer;
-}
-.overlay{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,.55);
-    opacity:0;
-    visibility:hidden;
-    transition:.3s;
-    z-index:999;
-}
-.overlay.activo{
-    opacity:1;
-    visibility:visible;
-}
-.carrito{
-    position:fixed;
-    top:0;
-    right:-450px;
-    width:420px;
-    height:100%;
-    background:white;
-    transition:.4s;
-    z-index:1000;
-    display:flex;
-    flex-direction:column;
-}
-.carrito.activo{
-    right:0;
-}
-.carrito-header{
-    background:black;
-    color:white;
-    padding:20px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-#lista-carrito{
-    flex:1;
-    overflow-y:auto;
-    padding:20px;
-}
-.item-carrito {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 15px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #eee;
-}
-.resumen{
-    border-top:1px solid #ddd;
-    padding:20px;
-}
-.btn-finalizar{
-    width:100%;
-    padding:18px;
-    border:none;
-    background:#d7261e;
-    color:white;
-    font-size:18px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-/* ==========================================================
-   ESTILOS PARA EL PANEL ADMIN / CRUD
-   ========================================================== */
-#panelAdmin {
-    max-width: 1200px;
-    margin: 30px auto;
-    background: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-.admin-nav {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-    margin-bottom: 25px;
-}
-.btn-tab {
-    padding: 10px 20px;
-    border: 1px solid #ccc;
-    background: #fff;
-    cursor: pointer;
-    font-weight: bold;
-    border-radius: 4px;
-    transition: 0.2s;
-}
-.btn-tab.active {
-    background: #111;
-    color: white;
-    border-color: #111;
-}
-.crud-header {
-    font-size: 32px;
-    font-weight: 500;
-    margin-bottom: 20px;
-    color: #222;
-}
-.crud-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-    background: #fff;
-}
-.crud-table th {
-    text-align: left;
-    padding: 12px 16px;
-    border-bottom: 2px solid #eee;
-    color: #444;
-    font-weight: 600;
-}
-.crud-table td {
-    padding: 16px;
-    border-bottom: 1px solid #eee;
-    color: #333;
-    font-size: 15px;
-}
-.crud-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-.btn-action-edit {
-    background: #ffb703;
-    color: #222;
-    border: none;
-    padding: 6px 14px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-right: 5px;
-}
-.btn-action-del {
-    background: #e63946;
-    color: white;
-    border: none;
-    padding: 6px 14px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-}
-.btn-add-item {
-    background: #2cb67d;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-}
-.btn-download-csv {
-    background: #0077b6;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-right: 10px;
-}
-footer{
-    background:#111;
-    color:white;
-    text-align:center;
-    padding:20px;
-    margin-top: 50px;
-}
+    *{ margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+    body{ background:#f5f5f5; }
+    /* HEADER PUBLICO */
+    header{ background:#111; color:white; padding:20px 40px; display:flex; justify-content:space-between; align-items:center; }
+    .btn-login{ background:transparent; color:white; border:2px solid #d7261e; padding:10px 18px; border-radius:6px; cursor:pointer; font-weight:bold; }
+    .login-dropdown{ position:absolute; top:70px; right:40px; width:300px; background:#111; border-radius:10px; padding:20px; display:none; z-index:2000; box-shadow:0 10px 25px rgba(0,0,0,.4); }
+    .login-dropdown.activo{ display:block; }
+    .login-dropdown input{ width:100%; padding:12px; margin-bottom:15px; border:none; border-radius:5px; background:#222; color:white; }
+    .btn-ingresar{ width:100%; padding:12px; border:none; background:#d7261e; color:white; font-weight:bold; cursor:pointer; }
+    
+    /* DASHBOARD ADMIN */
+    #panelDashboard { padding: 40px; background: #f0f2f5; min-height: 100vh; }
+    .stats-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+    .stat-card { background:white; padding:20px; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1); text-align: center; }
+    .admin-nav { display: flex; gap: 10px; margin-bottom: 25px; }
+    .btn-tab { padding: 10px 20px; border: 1px solid #ccc; background: #fff; cursor: pointer; border-radius: 4px; }
+    .btn-tab.active { background: #111; color: white; border-color: #111; }
+    .crud-table { width: 100%; border-collapse: collapse; background: #fff; }
+    .crud-table th, .crud-table td { padding: 15px; border-bottom: 1px solid #eee; text-align: left; }
+    .btn-action-edit { background: #ffb703; border: none; padding: 6px 14px; cursor: pointer; border-radius: 4px; }
+    .btn-action-del { background: #e63946; color: white; border: none; padding: 6px 14px; cursor: pointer; border-radius: 4px; }
+    .btn-add-item { background: #2cb67d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
 </style>
 </head>
 <body>
-<header>
-<h1>StyleStore</h1>
-<nav>
-<div class="login-menu">
-    <button class="btn-login" onclick="toggleLogin()">
-    Iniciar sesión
-    </button>
+<header id="headerPublico">
+    <h1>StyleStore</h1>
+    <button class="btn-login" onclick="toggleLogin()">Acceso Admin</button>
     <div class="login-dropdown" id="loginDropdown">
-    <h3>🔒 ACCESO</h3>
-    <input type="text" id="usuario" placeholder="Usuario">
-    <input type="password" id="clave" placeholder="Contraseña">
-    <button class="btn-ingresar" onclick="login()">
-    INGRESAR
-    </button>
+        <input type="text" id="usuario" placeholder="Usuario (admin)">
+        <input type="password" id="clave" placeholder="Contraseña (1234)">
+        <button class="btn-ingresar" onclick="login()">INGRESAR</button>
     </div>
-</div>
-
-<a href="#" onclick="volverTienda()">Inicio</a>
-<a href="#" onclick="volverTienda()">Tienda</a>
-
-<button id="btnCarrito" onclick="mostrarCarrito()">
-🛒 Carrito
-</button>
-</nav>
 </header>
 
 <div id="seccionPublica">
-    <section class="hero">
-    <h2>Descubre tu estilo</h2>
-    <p>Moda moderna para todos</p>
-    </section>
-    
-    <section class="products" id="contenedorProductosTienda"></section>
+    <div style="text-align:center; padding:100px;"><h2>Bienvenido a StyleStore</h2></div>
 </div>
 
-<div id="overlay" class="overlay" onclick="ocultarCarrito()"></div>
-<div class="carrito" id="carrito">
-<div class="carrito-header">
-<h2>Tu carrito</h2>
-<span class="cerrar" style="cursor:pointer" onclick="ocultarCarrito()">✕</span>
-</div>
-<div id="lista-carrito"></div>
-<div class="resumen">
-<div class="fila">
-<span>Subtotal: S/ </span><span id="subtotal">0</span>
-</div>
-<div class="fila total" style="font-weight:bold; margin-top:5px; margin-bottom:15px;">
-<span>Total: S/ </span><span id="total">0</span>
-</div>
-<button class="btn-finalizar" onclick="comprarProductos()">
-FINALIZA TU COMPRA
-</button>
-</div>
-</div>
-
-<div id="panelAdmin" style="display:none;">
-    <h2 class="crud-header">Base de Datos CRUD</h2>
-    
-    <div class="admin-nav">
-        <button class="btn-tab active" onclick="cambiarPestana('productos', this)">Productos</button>
-        <button class="btn-tab" onclick="cambiarPestana('clientes', this)">Clientes</button>
-        <button class="btn-tab" onclick="cambiarPestana('usuarios', this)">Usuarios</button>
+<div id="panelDashboard" style="display:none;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h2>Panel de Control</h2>
+        <button onclick="location.reload()" style="background:#333; color:white; padding:10px 20px; border:none; cursor:pointer;">Cerrar Sesión</button>
     </div>
-
-    <div id="contenidoAdmin"></div>
+    <div class="stats-container">
+        <div class="stat-card"><h3>Productos</h3><p id="totalProductos" style="font-size: 24px; font-weight: bold;"></p></div>
+        <div class="stat-card"><h3>Clientes</h3><p id="totalClientes" style="font-size: 24px; font-weight: bold;"></p></div>
+        <div class="stat-card"><h3>Usuarios</h3><p id="totalUsuarios" style="font-size: 24px; font-weight: bold;"></p></div>
+    </div>
+    <div style="background:white; padding:20px; border-radius:10px;">
+        <div class="admin-nav">
+            <button class="btn-tab active" onclick="cambiarPestana('productos', this)">Productos</button>
+            <button class="btn-tab" onclick="cambiarPestana('clientes', this)">Clientes</button>
+            <button class="btn-tab" onclick="cambiarPestana('usuarios', this)">Usuarios</button>
+        </div>
+        <div id="contenidoAdmin"></div>
+    </div>
 </div>
-
-<footer>
-© 2026 StyleStore - Todos los derechos reservados
-</footer>
-
 <script>
-let carrito = [];
-let total = 0;
-
-// Base de Datos en Memoria Localizada con soporte de imágenes para Productos
 let BaseDatos = {
-    productos: [
-        { id: 35, nombre: "Polera Urbana", precio: "50", email: "urban@style.com", telefono: "503-555-5555", ubicacion: "Sección A", hobby: "Nueva Colección", imagen: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80" },
-        { id: 36, nombre: "Jeans Clásicos", precio: "90", email: "jeans@style.com", telefono: "201-555-5555", ubicacion: "Sección B", hobby: "Denim Premium", imagen: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=800&q=80" },
-        { id: 37, nombre: "Chaqueta Moderna", precio: "120", email: "chaqueta@style.com", telefono: "503-555-5555", ubicacion: "Sección A", hobby: "Invierno", imagen: "https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?auto=format&fit=crop&w=800&q=80" }
-    ],
-    clientes: [
-        { id: 1, nombre: "Jane", precio: "Smith", email: "js@gmail.com", telefono: "503-555-5555", ubicacion: "Portland, Oregon", hobby: "Fotografía", imagen: "" },
-        { id: 2, nombre: "Tristan", precio: "Rodriguez", email: "tr@gmail.com", telefono: "201-555-5555", ubicacion: "New York, New York", hobby: "Ciclismo", imagen: "" }
-    ],
-    usuarios: [
-        { id: 10, nombre: "Admin", precio: "Root", email: "admin@store.com", telefono: "999-999-999", ubicacion: "Lima, Perú", hobby: "Sistemas", imagen: "" }
-    ]
+    productos: [{ id: 35, nombre: "Polera Urbana", precio: "50", email: "urban@style.com", telefono: "555-5555", ubicacion: "Sección A", hobby: "Nueva Colección" }],
+    clientes: [{ id: 1, nombre: "Jane", precio: "Smith", email: "js@gmail.com", telefono: "555-5555", ubicacion: "Lima", hobby: "Fotografía" }],
+    usuarios: [{ id: 10, nombre: "Admin", precio: "Root", email: "admin@store.com", telefono: "999-9999", ubicacion: "Lima", hobby: "Sistemas" }]
 };
-
 let seccionActual = "productos";
 
-// Cargar los productos en la tienda apenas abra la página
-document.addEventListener("DOMContentLoaded", () => {
-    renderizarProductosTienda();
-});
+function toggleLogin() { document.getElementById("loginDropdown").classList.toggle("activo"); }
 
-// RENDERIZAR PRODUCTOS EN EL INICIO DINÁMICAMENTE
-function renderizarProductosTienda() {
-    let contenedor = document.getElementById("contenedorProductosTienda");
-    contenedor.innerHTML = "";
-    
-    BaseDatos.productos.forEach(prod => {
-        // En caso de que no tenga una imagen válida, poner una por defecto
-        let imgUrl = prod.imagen || 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=800&q=80';
-        
-        contenedor.innerHTML += `
-        <div class="card">
-            <img src="${imgUrl}">
-            <div class="card-content">
-                <h3>${prod.nombre}</h3>
-                <p class="price">S/ ${prod.precio}</p>
-                <button onclick="agregarCarrito('${prod.nombre}', ${prod.precio}, '${imgUrl}')">
-                Comprar
-                </button>
-            </div>
-        </div>
-        `;
-    });
+function login() {
+    let u = document.getElementById("usuario").value;
+    let c = document.getElementById("clave").value;
+    if(u === "admin" && c === "1234") {
+        document.getElementById("headerPublico").style.display = "none";
+        document.getElementById("seccionPublica").style.display = "none";
+        document.getElementById("panelDashboard").style.display = "block";
+        actualizarResumen();
+        renderizarTabla();
+    } else { alert("Datos incorrectos"); }
 }
 
-function toggleLogin(){
-    document.getElementById("loginDropdown").classList.toggle("activo");
+function actualizarResumen() {
+    document.getElementById("totalProductos").textContent = BaseDatos.productos.length;
+    document.getElementById("totalClientes").textContent = BaseDatos.clientes.length;
+    document.getElementById("totalUsuarios").textContent = BaseDatos.usuarios.length;
 }
 
-document.addEventListener("click", function(e){
-    let menu = document.querySelector(".login-menu");
-    if(menu && !menu.contains(e.target)){
-        document.getElementById("loginDropdown").classList.remove("activo");
-    }
-});
-
-function login(){
- let usuario = document.getElementById("usuario").value;
- let clave = document.getElementById("clave").value;
- 
- if(usuario === "admin" && clave === "1234"){
-   document.getElementById("seccionPublica").style.display = "none";
-   document.getElementById("panelAdmin").style.display = "block";
-   document.getElementById("loginDropdown").classList.remove("activo");
-   renderizarTabla();
- } else {
-   alert("Usuario o contraseña incorrectos");
- }
-}
-
-function volverTienda() {
-    document.getElementById("seccionPublica").style.display = "block";
-    document.getElementById("panelAdmin").style.display = "none";
-    renderizarProductosTienda(); // Actualiza la tienda por si hubo cambios en el CRUD
-}
-
-function cambiarPestana(tipo, boton) {
+function cambiarPestana(tipo, btn) {
     seccionActual = tipo;
     document.querySelectorAll('.btn-tab').forEach(b => b.classList.remove('active'));
-    boton.classList.add('active');
+    btn.classList.add('active');
     renderizarTabla();
 }
 
 function renderizarTabla() {
     let datos = BaseDatos[seccionActual];
-    
-    // Cambiar las etiquetas dependiendo de si son productos u otros datos
-    let columnaPrecioDetalle = seccionActual === "productos" ? "Precio (S/)" : "Apellido / Detalle";
-    let columnaHobbyInfo = seccionActual === "productos" ? "Etiqueta / Descripción" : "Hobby / Interés";
-
-    let html = `
-    <table class="crud-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>${columnaPrecioDetalle}</th>
-                <th>Correo</th>
-                <th>Teléfono / Tel.</th>
-                <th>Ubicación</th>
-                <th>${columnaHobbyInfo}</th>
-                ${seccionActual === "productos" ? "<th>Imagen (URL)</th>" : ""}
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-    `;
-
+    let html = `<table class="crud-table"><thead><tr><th>ID</th><th>Nombre</th><th>Precio/Detalle</th><th>Acciones</th></tr></thead><tbody>`;
     datos.forEach((item, index) => {
-        html += `
-        <tr>
-            <td><strong>${item.id}</strong></td>
-            <td>${item.nombre}</td>
-            <td>S/ ${item.precio}</td>
-            <td>${item.email}</td>
-            <td>${item.telefono || ''}</td>
-            <td>${item.ubicacion || ''}</td>
-            <td>${item.hobby || ''}</td>
-            ${seccionActual === "productos" ? `<td style="max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:11px; color:#666">${item.imagen || ''}</td>` : ""}
-            <td>
-                <button class="btn-action-edit" onclick="editarItem(${index})">Editar</button>
-                <button class="btn-action-del" onclick="eliminarItem(${index})">Eliminar</button>
-            </td>
-        </tr>
-        `;
+        html += `<tr><td>${item.id}</td><td>${item.nombre}</td><td>${item.precio}</td>
+                 <td><button class="btn-action-edit" onclick="editarItem(${index})">Edit</button>
+                 <button class="btn-action-del" onclick="eliminarItem(${index})">Del</button></td></tr>`;
     });
-
-    html += `
-        </tbody>
-    </table>
-    <button class="btn-download-csv" onclick="alert('Descargando archivo CSV...')">Descargar CSV</button>
-    <button class="btn-add-item" onclick="agregarItem()">Agregar Registro</button>
-    `;
-
+    html += `</tbody></table><br><button class="btn-add-item" onclick="agregarItem()">+ Agregar Registro</button>`;
     document.getElementById("contenidoAdmin").innerHTML = html;
 }
 
 function agregarItem() {
-    let nombre = prompt("Ingrese Nombre del artículo:");
+    let nombre = prompt("Nombre:");
     if(!nombre) return;
-    
-    let precio = prompt("Ingrese el Precio (Solo números):", "50");
-    let email = prompt("Ingrese Correo / Identificador de contacto:", "tienda@store.com");
-    let telefono = prompt("Ingrese Teléfono o código interno:");
-    let ubicacion = prompt("Ingrese Ubicación o Almacén:");
-    let hobby = prompt("Ingrese una Descripción breve o Categoría:");
-    
-    let imagen = "";
-    if(seccionActual === "productos") {
-        imagen = prompt("Pegue la URL de la Imagen del Producto (Puedes usar links de Unsplash o cualquier imagen web):", "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=800&q=80");
-    }
-
-    let nuevoId = BaseDatos[seccionActual].length > 0 ? BaseDatos[seccionActual][BaseDatos[seccionActual].length - 1].id + 1 : 1;
-
-    BaseDatos[seccionActual].push({
-        id: nuevoId, nombre, precio, email, telefono, ubicacion, hobby, imagen
-    });
-
+    BaseDatos[seccionActual].push({id: Date.now(), nombre: nombre, precio: "0", email: "", telefono: "", ubicacion: "", hobby: ""});
     renderizarTabla();
-    renderizarProductosTienda(); // Actualiza el repositorio para cuando regresemos
-}
-
-function editarItem(index) {
-    let item = BaseDatos[seccionActual][index];
-
-    let nuevoNombre = prompt("Editar Nombre:", item.nombre);
-    let nuevoPrecio = prompt("Editar Precio / Detalle:", item.precio);
-    let nuevoEmail = prompt("Editar Correo:", item.email);
-    let nuevoTelefono = prompt("Editar Teléfono:", item.telefono);
-    let nuevaUbicacion = prompt("Editar Ubicación:", item.ubicacion);
-    let nuevoHobby = prompt("Editar Descripción / Hobby:", item.hobby);
-    
-    let nuevaImagen = item.imagen;
-    if(seccionActual === "productos") {
-        nuevaImagen = prompt("Editar URL de la Imagen:", item.imagen);
-    }
-
-    if(nuevoNombre !== null) item.nombre = nuevoNombre;
-    if(nuevoPrecio !== null) item.precio = nuevoPrecio;
-    if(nuevoEmail !== null) item.email = nuevoEmail;
-    if(nuevoTelefono !== null) item.telefono = nuevoTelefono;
-    if(nuevaUbicacion !== null) item.ubicacion = nuevaUbicacion;
-    if(nuevoHobby !== null) item.hobby = nuevoHobby;
-    if(nuevaImagen !== null) item.imagen = nuevaImagen;
-
-    renderizarTabla();
-    renderizarProductosTienda();
+    actualizarResumen();
 }
 
 function eliminarItem(index) {
-    if(confirm("¿Estás completamente seguro de eliminar este registro?")) {
-        BaseDatos[seccionActual].splice(index, 1);
-        renderizarTabla();
-        renderizarProductosTienda();
-    }
+    BaseDatos[seccionActual].splice(index, 1);
+    renderizarTabla();
+    actualizarResumen();
 }
 
-// FUNCIONES DEL CARRITO DE COMPRAS
-function mostrarCarrito(){
-    document.getElementById("carrito").classList.add("activo");
-    document.getElementById("overlay").classList.add("activo");
-}
-function ocultarCarrito(){
-    document.getElementById("carrito").classList.remove("activo");
-    document.getElementById("overlay").classList.remove("activo");
-}
-function agregarCarrito(nombre,precio,imagen){
-    carrito.push({nombre, precio, imagen});
-    actualizarCarrito();
-    mostrarCarrito();
-}
-function eliminarProducto(index){
-    carrito.splice(index,1);
-    actualizarCarrito();
-}
-function actualizarCarrito(){
-    let lista = document.getElementById("lista-carrito");
-    lista.innerHTML = "";
-    total = 0;
-    carrito.forEach((producto,index)=>{
-        total += parseFloat(producto.precio);
-        lista.innerHTML += `
-        <div class="item-carrito">
-            <img src="${producto.imagen}" width="60" style="border-radius:4px; object-fit:cover; height:60px;">
-            <div class="info-producto" style="flex:1; margin-left:10px;">
-                <h4 style="font-size:14px;">${producto.nombre}</h4>
-                <div class="precio-item" style="color:#d7261e; font-weight:bold;">S/ ${producto.precio}</div>
-            </div>
-            <button onclick="eliminarProducto(${index})" style="background:none; border:none; cursor:pointer; font-size:18px;">🗑</button>
-        </div>`;
-    });
-    document.getElementById("subtotal").textContent = total;
-    document.getElementById("total").textContent = total;
-}
-function comprarProductos(){
-    if(carrito.length===0){
-        alert("El carrito está vacío");
-        return;
-    }
-    alert("¡Compra realizada correctamente!\n\nTotal: S/ " + total);
-    carrito = [];
-    actualizarCarrito();
-    ocultarCarrito();
+function editarItem(index) {
+    let nuevo = prompt("Editar nombre:", BaseDatos[seccionActual][index].nombre);
+    if(nuevo) BaseDatos[seccionActual][index].nombre = nuevo;
+    renderizarTabla();
 }
 </script>
 </body>
